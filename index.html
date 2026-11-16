@@ -20,7 +20,7 @@
 <div class="app">
 <header class="top">
  <div class="brand"><div class="logo">PL</div><div><h1>Product Lab</h1><p>RESEARCH · VALIDATE · LAUNCH</p></div></div>
- <div class="top-actions"><button class="btn ghost" id="exportTop">↧ Export data</button><button class="btn primary" id="newTop">＋ New product</button></div>
+ <div class="top-actions"><button class="btn ghost" id="cloudStatus">☁ Cloud</button><button class="btn ghost" id="exportTop">↧ Export data</button><button class="btn primary" id="newTop">＋ New product</button></div>
 </header>
 <div class="layout">
 <aside class="sidebar">
@@ -96,12 +96,27 @@
 </div>
 <div class="form-footer"><button type="button" class="btn danger" id="deleteProduct" style="visibility:hidden">Delete product</button><div style="display:flex;gap:8px"><button type="button" class="btn" id="cancelForm">Cancel</button><button type="submit" class="btn primary">Save product</button></div></div>
 </form></div></div>
+
+<div class="modal-back hidden" id="loginBack">
+  <div class="modal" style="max-width:430px">
+    <div class="modal-head"><div><div class="eyebrow">CLOUD STORAGE</div><h2>Product Lab Login</h2></div></div>
+    <form id="loginForm">
+      <div class="field" style="margin-bottom:13px"><label>USERNAME</label><input id="loginUsername" autocomplete="username" required></div>
+      <div class="field" style="margin-bottom:13px"><label>PASSWORD</label><input id="loginPassword" type="password" autocomplete="current-password" required></div>
+      <div class="notice" id="loginError" style="display:none;margin-top:0"></div>
+      <div class="form-footer"><span class="muted" style="font-size:10px">Your research is stored in MongoDB Atlas.</span><button class="btn primary" type="submit">Sign in</button></div>
+    </form>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
 <input type="file" id="importFile" accept=".json,application/json" class="hidden">
 <script>
 (function(){
 'use strict';
 const KEY='productLab.records.v1';
+const API_BASE=(window.PRODUCT_LAB_API||'').replace(/\\/$/,'');
+const USE_MONGODB=!!API_BASE;
+let authenticated=false;
 const criteria=[
  ['pain','Problem pain','How painful is this problem?'],
  ['frequency','Problem frequency','How often does it happen?'],
@@ -115,9 +130,35 @@ const criteria=[
  ['transform','Visible transformation','Is the before/after outcome obvious?']
 ];
 const $=id=>document.getElementById(id);
-let records=load();
-function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return []}}
-function persist(){localStorage.setItem(KEY,JSON.stringify(records));render(); }
+let records=[];
+function loadLocal(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return []}}
+function persistLocal(){localStorage.setItem(KEY,JSON.stringify(records));render();}
+async function api(path,options={}){
+  const res=await fetch(API_BASE+path,{credentials:'include',headers:{'Content-Type':'application/json',...(options.headers||{})},...options});
+  let data={}; try{data=await res.json()}catch(e){}
+  if(!res.ok){const err=new Error(data.error||'Request failed');err.status=res.status;throw err;}
+  return data;
+}
+async function loadCloud(){
+  try{await api('/me');authenticated=true;records=(await api('/products')).products||[];render();return true;}
+  catch(e){authenticated=false;if(e.status===401){showLogin();}else toast('Cloud API unavailable');return false;}
+}
+async function saveCloud(p){
+  if(!authenticated){showLogin();return false;}
+  try{if(records.some(x=>x.id===p.id)){await api('/products/'+encodeURIComponent(p.id),{method:'PUT',body:JSON.stringify(p)});}else{await api('/products',{method:'POST',body:JSON.stringify(p)});}return true;}
+  catch(e){if(e.status===401){authenticated=false;showLogin();}else toast(e.message);return false;}
+}
+async function deleteCloud(id){
+  try{await api('/products/'+encodeURIComponent(id),{method:'DELETE'});return true;}
+  catch(e){if(e.status===401){authenticated=false;showLogin();}else toast(e.message);return false;}
+}
+async function replaceCloud(arr){
+  try{await api('/products/bulk',{method:'POST',body:JSON.stringify({products:arr})});records=arr;render();return true;}
+  catch(e){if(e.status===401){authenticated=false;showLogin();}else toast(e.message);return false;}
+}
+function showLogin(){ $('loginBack').classList.remove('hidden'); document.body.style.overflow='hidden'; }
+function hideLogin(){ $('loginBack').classList.add('hidden'); document.body.style.overflow=''; }
+function persist(){if(USE_MONGODB){render();}else{persistLocal();}}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function score(p){let vals=criteria.map(c=>Number((p.ratings||{})[c[0]]??0));return Math.round(vals.reduce((a,b)=>a+b,0)/10*10)}
 function statusClass(s){return s==='Validated'?'good':s==='Rejected'?'bad':s==='Testing'||s==='Building'?'warn':''}
@@ -159,18 +200,19 @@ function openModal(id){
 }
 function closeModal(){$('modalBack').classList.add('hidden');document.body.style.overflow=''}
 function buildScoreFields(){$('scoreFields').innerHTML=criteria.map(c=>'<div class="field"><label>'+c[1].toUpperCase()+'</label><div class="range-wrap"><input type="range" min="0" max="10" step="1" id="r_'+c[0]+'" value="5"><span class="range-val" id="v_'+c[0]+'">5</span></div><small>'+c[2]+'</small></div>').join('');criteria.forEach(c=>$('r_'+c[0]).addEventListener('input',e=>$('v_'+c[0]).textContent=e.target.value))}
-function saveForm(e){
+async function saveForm(e){
  e.preventDefault();let id=$('productId').value||crypto.randomUUID(),old=records.find(x=>x.id===id);
  let p={id,name:$('name').value.trim(),type:$('type').value,market:$('market').value.trim(),problem:$('problem').value.trim(),alternatives:$('alternatives').value.trim(),solution:$('solution').value.trim(),price:Number($('price').value||0),model:$('model').value,channel:$('channel').value.trim(),competitor:$('competitor').value.trim(),notes:$('notes').value.trim(),status:$('status').value,researchDate:$('researchDate').value,interviews:Number($('interviews').value||0),leads:Number($('leads').value||0),buyers:Number($('buyers').value||0),conversion:Number($('conversion').value||0),problemProof:$('problemProof').checked,paymentProof:$('paymentProof').checked,ratings:Object.fromEntries(criteria.map(c=>[c[0],Number($('r_'+c[0]).value)])),created:old?.created||new Date().toISOString(),updated:new Date().toISOString().slice(0,10)};
  if(p.status==='Validated'&&!p.paymentProof&&!p.buyers){if(!confirm('There is no payment/commitment evidence recorded. Keep status as Validated anyway?'))return;}
- if(old)records=records.map(x=>x.id===id?p:x);else records.unshift(p);
- persist();closeModal();toast(old?'Product updated':'Product saved');
+ if(USE_MONGODB){const ok=await saveCloud(p);if(!ok)return;}else{if(old)records=records.map(x=>x.id===id?p:x);else records.unshift(p);persistLocal();}
+ if(USE_MONGODB){if(old)records=records.map(x=>x.id===id?p:x);else records.unshift(p);render();}
+ closeModal();toast(old?'Product updated':'Product saved');
 }
 function showDetail(id){let p=records.find(x=>x.id===id);if(!p)return;let sc=score(p);let detail='<div class="modal-back" id="detailBack"><div class="modal"><div class="modal-head"><div><div class="eyebrow">PRODUCT REVIEW</div><h2>'+esc(p.name)+'</h2></div><button class="close" id="detailClose">×</button></div><div class="score-row" style="border:0;padding:0;margin:0 0 18px"><div class="score" style="font-size:32px">'+sc+'<span style="font-size:12px;color:#8794a8">/100</span></div><div><span class="tag '+statusClass(p.status)+'">'+esc(p.status)+'</span><div class="score-caption">Opportunity score — not market validation</div></div></div><div class="detail-grid">'+[['Target market',p.market],['Product type',p.type],['Expected price','₹'+Number(p.price||0).toLocaleString('en-IN')],['Revenue model',p.model],['Interviews',p.interviews],['Leads / waitlist',p.leads],['Paying / committed',p.buyers],['Conversion',p.conversion+'%']].map(x=>'<div class="detail-box"><label>'+esc(x[0])+'</label><strong>'+esc(x[1]??'—')+'</strong></div>').join('')+'</div><div class="panel" style="margin-top:14px"><h3>Problem</h3><p class="muted">'+esc(p.problem||'—')+'</p><h3>Solution</h3><p class="muted">'+esc(p.solution||'—')+'</p><h3>Alternatives / competitors</h3><p class="muted">'+esc(p.alternatives||'—')+'</p><h3>Research notes</h3><p class="muted">'+esc(p.notes||'—')+'</p></div><div class="form-footer"><span class="muted" style="font-size:10px">Updated '+esc(p.updated||'—')+'</span><button class="btn primary" id="detailEdit">Edit product</button></div></div></div>';
  document.body.insertAdjacentHTML('beforeend',detail);$('detailClose').onclick=()=>$('detailBack').remove();$('detailBack').addEventListener('click',e=>{if(e.target.id==='detailBack')e.currentTarget.remove()});$('detailEdit').onclick=()=>{$('detailBack').remove();openModal(id)};
 }
 function exportData(){let blob=new Blob([JSON.stringify({app:'Product Lab',version:1,exported:new Date().toISOString(),products:records},null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='product-lab-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(a.href);toast('Backup exported')}
-function importData(file){let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result),arr=Array.isArray(d)?d:d.products;if(!Array.isArray(arr))throw Error();if(!confirm('Import '+arr.length+' products? This replaces the current local data. Export a backup first if needed.'))return;records=arr;persist();toast('Backup imported')}catch(e){toast('Invalid backup file')}};r.readAsText(file)}
+function importData(file){let r=new FileReader();r.onload=async()=>{try{let d=JSON.parse(r.result),arr=Array.isArray(d)?d:d.products;if(!Array.isArray(arr))throw Error();if(!confirm('Import '+arr.length+' products? This replaces the current '+(USE_MONGODB?'MongoDB':'local')+' data. Export a backup first if needed.'))return;if(USE_MONGODB){if(!(await replaceCloud(arr)))return;}else{records=arr;persistLocal();}toast('Backup imported')}catch(e){toast('Invalid backup file')}};r.readAsText(file)}
 function nav(page){['dashboard','products','validation','insights'].forEach(x=>$(x+'Page').classList.toggle('hidden',x!==page));document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));window.scrollTo({top:0,behavior:'smooth'});render()}
 document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>nav(b.dataset.page)));
 document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>nav(b.dataset.go)));
@@ -178,11 +220,23 @@ document.addEventListener('click',e=>{let t=e.target.closest('[data-edit],[data-
 ['newTop','newDash','newProducts'].forEach(id=>$(id).onclick=()=>openModal());
 $('closeModal').onclick=closeModal;$('cancelForm').onclick=closeModal;$('modalBack').addEventListener('click',e=>{if(e.target===$('modalBack'))closeModal()});
 $('productForm').addEventListener('submit',saveForm);
-$('deleteProduct').onclick=()=>{let id=$('productId').value;if(confirm('Permanently delete this product?')){records=records.filter(p=>p.id!==id);persist();closeModal();toast('Product deleted')}};
+$('deleteProduct').onclick=async()=>{let id=$('productId').value;if(confirm('Permanently delete this product?')){if(USE_MONGODB){if(!(await deleteCloud(id)))return;}records=records.filter(p=>p.id!==id);if(!USE_MONGODB)persistLocal();else render();closeModal();toast('Product deleted')}};
 $('searchProducts').addEventListener('input',render);$('filterStatus').addEventListener('change',render);$('sortProducts').addEventListener('change',render);
 ['exportTop','exportSide'].forEach(id=>$(id).onclick=exportData);
 $('importBtn').onclick=()=>$('importFile').click();$('importFile').onchange=e=>{if(e.target.files[0])importData(e.target.files[0]);e.target.value=''};
-buildScoreFields();render();
+$('cloudStatus').onclick=()=>{if(USE_MONGODB){if(authenticated){api('/logout',{method:'POST'}).finally(()=>{authenticated=false;records=[];render();showLogin();});}else showLogin();}else toast('Local browser storage mode');};
+buildScoreFields();
+if(!USE_MONGODB)$('cloudStatus').textContent='◉ Local';
+$('loginForm').addEventListener('submit',async e=>{
+ e.preventDefault();
+ $('loginError').style.display='none';
+ try{
+   await api('/login',{method:'POST',body:JSON.stringify({username:$('loginUsername').value.trim(),password:$('loginPassword').value})});
+   authenticated=true;hideLogin();$('loginPassword').value='';
+   records=(await api('/products')).products||[];render();toast('Connected to MongoDB');
+ }catch(err){$('loginError').textContent=err.message||'Login failed';$('loginError').style.display='block';}
+});
+if(USE_MONGODB){loadCloud();}else{records=loadLocal();render();}
 })();
 </script>
 </body>
