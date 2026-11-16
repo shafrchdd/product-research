@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#10131b">
+<meta name="description" content="Research, score and validate product ideas before you build.">
+<title>Product Lab — Research & Validation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d1017;--panel:#151a24;--panel2:#1b2230;--line:#293244;--muted:#929db0;--text:#f3f6fb;--lime:#c7f36b;--cyan:#70d8ce;--red:#ff827e;--amber:#ffc66d;--radius:18px;--shadow:0 18px 55px #0005}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 75% -15%,#243348 0,transparent 40%),var(--bg);color:var(--text);font:14px 'DM Sans',sans-serif;min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{max-width:1440px;margin:auto;padding:22px 22px 100px}.top{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:28px}.brand{display:flex;align-items:center;gap:12px}.logo{width:42px;height:42px;border-radius:14px;background:var(--lime);color:#12170c;display:grid;place-items:center;font:800 18px Manrope}.brand h1{font:800 18px Manrope;margin:0;letter-spacing:-.5px}.brand p{margin:2px 0 0;color:var(--muted);font-size:11px}.top-actions{display:flex;gap:9px;align-items:center}.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:11px;padding:10px 14px;font-weight:700}.btn.primary{background:var(--lime);color:#11170a;border-color:var(--lime)}.btn.ghost{background:transparent}.btn.small{padding:7px 10px;font-size:12px}.btn.danger{color:var(--red)}.layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:24px}.sidebar{position:sticky;top:18px;height:fit-content}.side-label{font-size:10px;letter-spacing:1.4px;color:#657186;font-weight:700;margin:15px 10px 8px}.nav{display:flex;flex-direction:column;gap:5px}.nav button{padding:11px 12px;text-align:left;border:0;background:transparent;color:var(--muted);border-radius:11px;display:flex;align-items:center;gap:11px;font-weight:600}.nav button.active,.nav button:hover{background:#202938;color:var(--text)}.nav .ico{width:19px;text-align:center}.side-tip{margin-top:25px;padding:15px;border:1px solid var(--line);background:linear-gradient(145deg,#1d2934,#171d27);border-radius:15px}.side-tip strong{display:block;font:700 12px Manrope;margin-bottom:6px}.side-tip p{color:var(--muted);font-size:11px;line-height:1.55;margin:0}.main{min-width:0}.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:15px;margin-bottom:23px}.eyebrow{color:var(--lime);font-size:10px;text-transform:uppercase;letter-spacing:1.6px;font-weight:800}.page-head h2{font:800 clamp(24px,4vw,34px) Manrope;letter-spacing:-1.2px;margin:6px 0}.page-head p{color:var(--muted);margin:0}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:20px}.stat,.panel,.product-card{background:linear-gradient(145deg,#181f2b,#141923);border:1px solid var(--line);border-radius:var(--radius)}.stat{padding:16px}.stat .label{color:var(--muted);font-size:11px}.stat .num{font:800 27px Manrope;margin:8px 0 2px}.stat .hint{font-size:10px;color:#768398}.toolbar{display:flex;gap:9px;align-items:center;margin-bottom:14px}.search{flex:1;position:relative}.search input{width:100%;background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:11px;padding:11px 13px 11px 36px;outline:none}.search span{position:absolute;left:12px;top:10px;color:var(--muted)}select,.field input,.field textarea,.field select{width:100%;background:#101620;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:11px;outline:none}select{width:auto;min-width:130px}.search input:focus,.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--lime)}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.product-card{padding:17px;transition:.2s}.product-card:hover{transform:translateY(-2px);border-color:#526174}.card-top{display:flex;justify-content:space-between;gap:12px}.tag{font-size:10px;font-weight:700;padding:5px 8px;border-radius:20px;background:#283243;color:#b9c7d9}.tag.good{background:#283921;color:var(--lime)}.tag.warn{background:#3a3020;color:var(--amber)}.tag.bad{background:#3d272b;color:var(--red)}.product-card h3{font:750 17px Manrope;margin:12px 0 5px}.product-card .desc{color:var(--muted);font-size:12px;line-height:1.5;min-height:36px;margin:0}.meta{display:flex;gap:12px;flex-wrap:wrap;color:#9aa7ba;font-size:10px;margin:13px 0}.score-row{display:flex;align-items:center;gap:12px;margin-top:14px;padding-top:13px;border-top:1px solid var(--line)}.score{font:800 23px Manrope;color:var(--lime)}.score-caption{color:var(--muted);font-size:10px}.score-bar{height:5px;background:#2b3442;border-radius:20px;overflow:hidden;margin-top:6px;flex:1}.score-bar i{display:block;height:100%;background:var(--lime);border-radius:20px}.card-actions{display:flex;gap:7px;margin-left:auto}.empty{padding:45px 20px;text-align:center;border:1px dashed #384457;border-radius:16px;color:var(--muted);grid-column:1/-1}.empty b{display:block;color:var(--text);font:700 16px Manrope;margin-bottom:6px}.hidden{display:none!important}.panel{padding:20px;margin-bottom:14px}.panel h3{font:750 15px Manrope;margin:0 0 15px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:11px;color:#abb6c7;font-weight:700}.field small{color:#78869b;font-size:10px}.field textarea{min-height:86px;resize:vertical}.range-wrap{display:flex;align-items:center;gap:10px}.range-wrap input{padding:0;accent-color:var(--lime)}.range-val{min-width:30px;color:var(--lime);font-weight:800}.form-footer{display:flex;justify-content:space-between;gap:10px;margin-top:18px}.section-title{display:flex;justify-content:space-between;align-items:center;margin:22px 0 12px}.section-title h3{font:750 15px Manrope;margin:0}.notice{background:#222d27;border:1px solid #40543a;color:#c9e9a2;padding:12px 14px;border-radius:12px;font-size:11px;line-height:1.55;margin-bottom:15px}.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:600px}.table th,.table td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);font-size:11px}.table th{color:var(--muted);font-weight:700}.table td{color:#dbe2ed}.pill{font-size:10px;padding:4px 8px;border-radius:20px;background:#283243}.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.detail-box{background:#101620;border:1px solid var(--line);padding:13px;border-radius:12px}.detail-box label{display:block;color:var(--muted);font-size:10px;margin-bottom:5px}.detail-box strong{font:700 13px Manrope}.modal-back{position:fixed;inset:0;background:#05070bc9;z-index:10;display:grid;place-items:center;padding:16px}.modal{width:min(760px,100%);max-height:92vh;overflow:auto;background:#171e29;border:1px solid #374357;border-radius:20px;padding:22px;box-shadow:var(--shadow)}.modal-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:18px}.modal-head h2{font:800 20px Manrope;margin:0}.close{border:0;background:#2a3444;color:white;width:32px;height:32px;border-radius:9px;font-size:18px}.bottom-nav{display:none}.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,20px);opacity:0;background:#e1f6b0;color:#17200b;padding:11px 16px;border-radius:11px;font-weight:700;font-size:12px;transition:.25s;z-index:20;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}.muted{color:var(--muted)}.right{text-align:right}.check-row{display:flex;align-items:center;gap:9px;color:#bac5d5;font-size:11px}.check-row input{accent-color:var(--lime)}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.sidebar{display:none}.stats{grid-template-columns:repeat(2,1fr)}.cards{grid-template-columns:1fr}.app{padding:16px 14px 100px}.bottom-nav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:5;background:#111722ed;border-top:1px solid var(--line);padding:8px 5px calc(8px + env(safe-area-inset-bottom));justify-content:space-around;backdrop-filter:blur(15px)}.bottom-nav button{border:0;background:transparent;color:#8895a8;font-size:10px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px}.bottom-nav button.active{color:var(--lime)}.bottom-nav span{font-size:18px}.top{margin-bottom:22px}.top-actions .btn.ghost{display:none}.page-head{align-items:center}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.detail-grid{grid-template-columns:1fr 1fr}.toolbar{flex-wrap:wrap}.toolbar select{flex:1}.modal{padding:17px}.form-footer{position:sticky;bottom:-17px;background:#171e29;padding:13px 0 4px}}
+@media(min-width:851px){.bottom-nav{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+ <div class="brand"><div class="logo">PL</div><div><h1>Product Lab</h1><p>RESEARCH · VALIDATE · LAUNCH</p></div></div>
+ <div class="top-actions"><button class="btn ghost" id="exportTop">↧ Export data</button><button class="btn primary" id="newTop">＋ New product</button></div>
+</header>
+<div class="layout">
+<aside class="sidebar">
+ <div class="side-label">WORKSPACE</div><nav class="nav" id="sideNav">
+ <button class="active" data-page="dashboard"><span class="ico">▦</span> Overview</button>
+ <button data-page="products"><span class="ico">◇</span> My products</button>
+ <button data-page="validation"><span class="ico">◈</span> Validation tracker</button>
+ <button data-page="insights"><span class="ico">▤</span> Research insights</button>
+ </nav>
+ <div class="side-label">TOOLS</div><nav class="nav"><button id="importBtn"><span class="ico">↥</span> Import backup</button><button id="exportSide"><span class="ico">↧</span> Export backup</button></nav>
+ <div class="side-tip"><strong>Build after proof.</strong><p>Collect evidence, talk to buyers and test willingness to pay before spending weeks building.</p></div>
+</aside>
+<main class="main">
+<section id="dashboardPage">
+ <div class="page-head"><div><div class="eyebrow">YOUR DECISION STUDIO</div><h2>Find the signal. Ignore the noise.</h2><p>Track ideas, validate demand and decide what deserves your time.</p></div><button class="btn primary" id="newDash">＋ Add idea</button></div>
+ <div class="stats">
+  <div class="stat"><div class="label">Total ideas</div><div class="num" id="statTotal">0</div><div class="hint">Everything in your pipeline</div></div>
+  <div class="stat"><div class="label">Worth testing</div><div class="num" id="statTesting">0</div><div class="hint">Score 70 or above</div></div>
+  <div class="stat"><div class="label">Validated</div><div class="num" id="statValidated">0</div><div class="hint">Evidence-backed demand</div></div>
+  <div class="stat"><div class="label">Average score</div><div class="num" id="statScore">—</div><div class="hint">Across your ideas</div></div>
+ </div>
+ <div class="section-title"><h3>Top opportunities</h3><button class="btn small ghost" data-go="products">View all →</button></div>
+ <div class="cards" id="topCards"></div>
+ <div class="section-title"><h3>Next validation actions</h3><span class="muted" style="font-size:10px">Move ideas forward with evidence</span></div>
+ <div class="panel" id="nextActions"></div>
+</section>
+<section id="productsPage" class="hidden">
+ <div class="page-head"><div><div class="eyebrow">IDEA PIPELINE</div><h2>My products</h2><p>Your complete list of product opportunities.</p></div><button class="btn primary" id="newProducts">＋ New product</button></div>
+ <div class="toolbar"><div class="search"><span>⌕</span><input id="searchProducts" placeholder="Search product, audience or problem…"></div><select id="filterStatus"><option value="">All statuses</option><option>Idea</option><option>Researching</option><option>Testing</option><option>Validated</option><option>Rejected</option><option>Building</option></select><select id="sortProducts"><option value="score">Highest score</option><option value="updated">Recently updated</option><option value="name">Name A–Z</option></select></div>
+ <div class="cards" id="productCards"></div>
+</section>
+<section id="validationPage" class="hidden">
+ <div class="page-head"><div><div class="eyebrow">EVIDENCE BOARD</div><h2>Validation tracker</h2><p>Track interviews, pre-orders, landing pages and willingness to pay.</p></div></div>
+ <div class="notice">A high score is a research signal, not proof of demand. Treat a product as validated only after real customer evidence, preferably payment or a meaningful commitment.</div>
+ <div class="panel"><h3>Validation checklist</h3><div class="table-wrap"><table class="table"><thead><tr><th>PRODUCT</th><th>INTERVIEWS</th><th>WAITLIST</th><th>PAYING / COMMITTED</th><th>STATUS</th><th></th></tr></thead><tbody id="validationRows"></tbody></table></div></div>
+</section>
+<section id="insightsPage" class="hidden">
+ <div class="page-head"><div><div class="eyebrow">RESEARCH QUALITY</div><h2>Research insights</h2><p>See where your evidence is strong and where assumptions remain.</p></div></div>
+ <div class="stats"><div class="stat"><div class="label">Problem evidence</div><div class="num" id="insProblem">0%</div><div class="hint">Ideas with problem evidence</div></div><div class="stat"><div class="label">Competitor research</div><div class="num" id="insComp">0%</div><div class="hint">Ideas with competitor notes</div></div><div class="stat"><div class="label">Customer conversations</div><div class="num" id="insInterviews">0</div><div class="hint">Total interviews logged</div></div><div class="stat"><div class="label">Commercial proof</div><div class="num" id="insBuyers">0</div><div class="hint">Paid or committed buyers</div></div></div>
+ <div class="panel"><h3>Score distribution</h3><div id="distribution"></div></div>
+ <div class="panel"><h3>Research gaps</h3><div id="gaps"></div></div>
+</section>
+</main>
+</div>
+</div>
+<nav class="bottom-nav" id="bottomNav"><button class="active" data-page="dashboard"><span>▦</span>Home</button><button data-page="products"><span>◇</span>Products</button><button data-page="validation"><span>◈</span>Validate</button><button data-page="insights"><span>▤</span>Insights</button></nav>
+<div class="modal-back hidden" id="modalBack"><div class="modal"><div class="modal-head"><h2 id="modalTitle">New product</h2><button class="close" id="closeModal">×</button></div><form id="productForm">
+<input type="hidden" id="productId">
+<div class="form-grid">
+ <div class="field full"><label>PRODUCT / IDEA NAME *</label><input id="name" required maxlength="100" placeholder="e.g. WhatsApp follow-up CRM for property agents"></div>
+ <div class="field"><label>PRODUCT TYPE</label><select id="type"><option>Micro-SaaS</option><option>AI Tool</option><option>Template / Digital download</option><option>Automation</option><option>Course / Content</option><option>Plugin / Extension</option><option>Other</option></select></div>
+ <div class="field"><label>TARGET MARKET</label><input id="market" placeholder="e.g. Indian real-estate agents"></div>
+ <div class="field full"><label>PROBLEM BEING SOLVED *</label><textarea id="problem" required placeholder="Describe the painful, recurring problem in the customer's words…"></textarea></div>
+ <div class="field full"><label>CURRENT ALTERNATIVES / COMPETITORS</label><textarea id="alternatives" placeholder="What do customers use today? Competitors, spreadsheets, manual work…"></textarea></div>
+ <div class="field full"><label>YOUR SOLUTION / DIFFERENTIATION</label><textarea id="solution" placeholder="What will be easier, faster, cheaper or more specialised?"></textarea></div>
+ <div class="field"><label>EXPECTED PRICE (₹)</label><input id="price" type="number" min="0" placeholder="999"></div>
+ <div class="field"><label>REVENUE MODEL</label><select id="model"><option>Monthly subscription</option><option>One-time purchase</option><option>Annual subscription</option><option>Setup + recurring</option><option>Usage based</option><option>Freemium</option></select></div>
+ <div class="field"><label>WHERE TO FIND CUSTOMERS</label><input id="channel" placeholder="e.g. Facebook groups, YouTube, LinkedIn"></div>
+ <div class="field"><label>MAIN COMPETITOR / URL</label><input id="competitor" placeholder="Name or website URL"></div>
+ <div class="field full"><label>RESEARCH NOTES / CUSTOMER QUOTES</label><textarea id="notes" placeholder="Paste review excerpts, forum complaints, interview notes and source links…"></textarea></div>
+ <div class="field"><label>PIPELINE STATUS</label><select id="status"><option>Idea</option><option>Researching</option><option>Testing</option><option>Validated</option><option>Rejected</option><option>Building</option></select></div>
+ <div class="field"><label>LAST RESEARCH DATE</label><input id="researchDate" type="date"></div>
+</div>
+<div class="section-title"><h3>Opportunity score</h3><span class="muted" style="font-size:10px">Rate each factor from 0–10</span></div>
+<div class="form-grid" id="scoreFields"></div>
+<div class="section-title"><h3>Validation evidence</h3><span class="muted" style="font-size:10px">Record real-world signals</span></div>
+<div class="form-grid">
+ <div class="field"><label>CUSTOMER INTERVIEWS</label><input id="interviews" type="number" min="0" value="0"></div>
+ <div class="field"><label>WAITLIST / LEADS</label><input id="leads" type="number" min="0" value="0"></div>
+ <div class="field"><label>PAID / COMMITTED BUYERS</label><input id="buyers" type="number" min="0" value="0"></div>
+ <div class="field"><label>LANDING PAGE CONVERSION (%)</label><input id="conversion" type="number" min="0" max="100" step=".1" value="0"></div>
+ <div class="field full"><label class="check-row"><input id="problemProof" type="checkbox"> I have evidence that the problem is real (interviews, reviews or repeated complaints).</label><label class="check-row"><input id="paymentProof" type="checkbox"> I have payment or strong purchase commitment evidence.</label></div>
+</div>
+<div class="form-footer"><button type="button" class="btn danger" id="deleteProduct" style="visibility:hidden">Delete product</button><div style="display:flex;gap:8px"><button type="button" class="btn" id="cancelForm">Cancel</button><button type="submit" class="btn primary">Save product</button></div></div>
+</form></div></div>
+<div class="toast" id="toast"></div>
+<input type="file" id="importFile" accept=".json,application/json" class="hidden">
+<script>
+(function(){
+'use strict';
+const KEY='productLab.records.v1';
+const criteria=[
+ ['pain','Problem pain','How painful is this problem?'],
+ ['frequency','Problem frequency','How often does it happen?'],
+ ['paying','Willingness to pay','Are people already spending money?'],
+ ['market','Market reachability','Can you reach buyers affordably?'],
+ ['build','Build feasibility','Can you build and support it?'],
+ ['demo','Demo clarity','Can value be shown in 10 seconds?'],
+ ['recurring','Recurring potential','Can it generate repeat revenue?'],
+ ['competition','Competitive gap','Are existing solutions weak for this niche?'],
+ ['organic','Organic reach','Can you acquire users without paid ads?'],
+ ['transform','Visible transformation','Is the before/after outcome obvious?']
+];
+const $=id=>document.getElementById(id);
+let records=load();
+function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return []}}
+function persist(){localStorage.setItem(KEY,JSON.stringify(records));render(); }
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function score(p){let vals=criteria.map(c=>Number((p.ratings||{})[c[0]]??0));return Math.round(vals.reduce((a,b)=>a+b,0)/10*10)}
+function statusClass(s){return s==='Validated'?'good':s==='Rejected'?'bad':s==='Testing'||s==='Building'?'warn':''}
+function toast(m){$('toast').textContent=m;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),2200)}
+function card(p){let sc=score(p);return '<article class="product-card"><div class="card-top"><span class="tag">'+esc(p.type||'Product')+'</span><span class="tag '+statusClass(p.status)+'">'+esc(p.status||'Idea')+'</span></div><h3>'+esc(p.name)+'</h3><p class="desc">'+esc(p.problem||'No problem statement added yet.')+'</p><div class="meta"><span>◎ '+esc(p.market||'Audience not set')+'</span><span>₹'+Number(p.price||0).toLocaleString('en-IN')+'</span><span>Updated '+esc(p.updated||'—')+'</span></div><div class="score-row"><div><div class="score">'+sc+'<span style="font-size:11px;color:#8794a8">/100</span></div><div class="score-caption">Opportunity score</div></div><div class="score-bar"><i style="width:'+sc+'%"></i></div><div class="card-actions"><button class="btn small" data-edit="'+p.id+'">Edit</button><button class="btn small ghost" data-view="'+p.id+'">↗</button></div></div></article>'}
+function render(){
+ $('statTotal').textContent=records.length;
+ $('statTesting').textContent=records.filter(p=>score(p)>=70&&p.status!=='Rejected').length;
+ $('statValidated').textContent=records.filter(p=>p.status==='Validated').length;
+ $('statScore').textContent=records.length?Math.round(records.reduce((a,p)=>a+score(p),0)/records.length):'—';
+ const sorted=[...records].sort((a,b)=>score(b)-score(a));
+ $('topCards').innerHTML=sorted.slice(0,4).map(card).join('')||'<div class="empty"><b>No product ideas yet</b>Start by capturing a problem worth solving.<br><br><button class="btn primary" data-new>＋ Add your first idea</button></div>';
+ const q=($('searchProducts')?.value||'').toLowerCase(), st=$('filterStatus')?.value||'', sort=$('sortProducts')?.value||'score';
+ let list=records.filter(p=>(!st||p.status===st)&&[p.name,p.problem,p.market,p.type].join(' ').toLowerCase().includes(q));
+ list.sort(sort==='name'?(a,b)=>a.name.localeCompare(b.name):sort==='updated'?(a,b)=>(b.updated||'').localeCompare(a.updated||''):(a,b)=>score(b)-score(a));
+ $('productCards').innerHTML=list.map(card).join('')||'<div class="empty"><b>No matching ideas</b>Try another search or add a new product.</div>';
+ $('validationRows').innerHTML=records.map(p=>'<tr><td><strong>'+esc(p.name)+'</strong><div class="muted">'+esc(p.market||'')+'</div></td><td>'+Number(p.interviews||0)+'</td><td>'+Number(p.leads||0)+'</td><td>'+Number(p.buyers||0)+'</td><td><span class="tag '+statusClass(p.status)+'">'+esc(p.status)+'</span></td><td><button class="btn small" data-edit="'+p.id+'">Update</button></td></tr>').join('')||'<tr><td colspan="6" class="muted">No products to track yet.</td></tr>';
+ insights();
+}
+function insights(){
+ const n=records.length||1, sum=k=>records.reduce((a,p)=>a+Number(p[k]||0),0);
+ $('insProblem').textContent=Math.round(records.filter(p=>p.problemProof).length/n*100)+'%';
+ $('insComp').textContent=Math.round(records.filter(p=>(p.alternatives||'').trim()).length/n*100)+'%';
+ $('insInterviews').textContent=sum('interviews');$('insBuyers').textContent=sum('buyers');
+ const buckets=[['0–39',0,39],['40–59',40,59],['60–69',60,69],['70–84',70,84],['85–100',85,100]];
+ $('distribution').innerHTML=buckets.map(([label,min,max])=>{let count=records.filter(p=>score(p)>=min&&score(p)<=max).length;return '<div style="display:flex;align-items:center;gap:12px;margin:12px 0;font-size:11px"><span style="width:55px;color:#9aa7ba">'+label+'</span><div class="score-bar"><i style="width:'+(records.length?count/records.length*100:0)+'%;background:'+(min>=70?'var(--lime)':'var(--cyan)')+'"></i></div><strong>'+count+'</strong></div>'}).join('');
+ const gapItems=[];records.forEach(p=>{let missing=[];if(!p.problemProof)missing.push('problem proof');if(!(p.alternatives||'').trim())missing.push('competitor research');if(!Number(p.interviews))missing.push('customer interviews');if(!Number(p.buyers))missing.push('payment test');if(missing.length)gapItems.push({name:p.name,missing})});
+ $('gaps').innerHTML=gapItems.slice(0,8).map(g=>'<div style="padding:11px 0;border-bottom:1px solid var(--line)"><strong style="font-size:12px">'+esc(g.name)+'</strong><div class="muted" style="font-size:11px;margin-top:4px">Still needed: '+esc(g.missing.join(' · '))+'</div></div>').join('')||'<div class="muted">No obvious research gaps. Keep collecting fresh customer evidence.</div>';
+}
+function openModal(id){
+ const p=records.find(x=>x.id===id)||null;
+ $('productForm').reset();$('productId').value=p?.id||'';
+ $('modalTitle').textContent=p?'Edit product':'New product idea';
+ $('deleteProduct').style.visibility=p?'visible':'hidden';
+ criteria.forEach(c=>{let el=$('r_'+c[0]);el.value=p?.ratings?.[c[0]]??5;el.dispatchEvent(new Event('input'))});
+ ['name','type','market','problem','alternatives','solution','price','model','channel','competitor','notes','status','researchDate','interviews','leads','buyers','conversion'].forEach(k=>{if($(k))$(k).value=p?.[k]??({type:'Micro-SaaS',model:'Monthly subscription',status:'Idea',interviews:0,leads:0,buyers:0,conversion:0}[k]??'')});
+ $('problemProof').checked=!!p?.problemProof;$('paymentProof').checked=!!p?.paymentProof;
+ $('modalBack').classList.remove('hidden');document.body.style.overflow='hidden';
+}
+function closeModal(){$('modalBack').classList.add('hidden');document.body.style.overflow=''}
+function buildScoreFields(){$('scoreFields').innerHTML=criteria.map(c=>'<div class="field"><label>'+c[1].toUpperCase()+'</label><div class="range-wrap"><input type="range" min="0" max="10" step="1" id="r_'+c[0]+'" value="5"><span class="range-val" id="v_'+c[0]+'">5</span></div><small>'+c[2]+'</small></div>').join('');criteria.forEach(c=>$('r_'+c[0]).addEventListener('input',e=>$('v_'+c[0]).textContent=e.target.value))}
+function saveForm(e){
+ e.preventDefault();let id=$('productId').value||crypto.randomUUID(),old=records.find(x=>x.id===id);
+ let p={id,name:$('name').value.trim(),type:$('type').value,market:$('market').value.trim(),problem:$('problem').value.trim(),alternatives:$('alternatives').value.trim(),solution:$('solution').value.trim(),price:Number($('price').value||0),model:$('model').value,channel:$('channel').value.trim(),competitor:$('competitor').value.trim(),notes:$('notes').value.trim(),status:$('status').value,researchDate:$('researchDate').value,interviews:Number($('interviews').value||0),leads:Number($('leads').value||0),buyers:Number($('buyers').value||0),conversion:Number($('conversion').value||0),problemProof:$('problemProof').checked,paymentProof:$('paymentProof').checked,ratings:Object.fromEntries(criteria.map(c=>[c[0],Number($('r_'+c[0]).value)])),created:old?.created||new Date().toISOString(),updated:new Date().toISOString().slice(0,10)};
+ if(p.status==='Validated'&&!p.paymentProof&&!p.buyers){if(!confirm('There is no payment/commitment evidence recorded. Keep status as Validated anyway?'))return;}
+ if(old)records=records.map(x=>x.id===id?p:x);else records.unshift(p);
+ persist();closeModal();toast(old?'Product updated':'Product saved');
+}
+function showDetail(id){let p=records.find(x=>x.id===id);if(!p)return;let sc=score(p);let detail='<div class="modal-back" id="detailBack"><div class="modal"><div class="modal-head"><div><div class="eyebrow">PRODUCT REVIEW</div><h2>'+esc(p.name)+'</h2></div><button class="close" id="detailClose">×</button></div><div class="score-row" style="border:0;padding:0;margin:0 0 18px"><div class="score" style="font-size:32px">'+sc+'<span style="font-size:12px;color:#8794a8">/100</span></div><div><span class="tag '+statusClass(p.status)+'">'+esc(p.status)+'</span><div class="score-caption">Opportunity score — not market validation</div></div></div><div class="detail-grid">'+[['Target market',p.market],['Product type',p.type],['Expected price','₹'+Number(p.price||0).toLocaleString('en-IN')],['Revenue model',p.model],['Interviews',p.interviews],['Leads / waitlist',p.leads],['Paying / committed',p.buyers],['Conversion',p.conversion+'%']].map(x=>'<div class="detail-box"><label>'+esc(x[0])+'</label><strong>'+esc(x[1]??'—')+'</strong></div>').join('')+'</div><div class="panel" style="margin-top:14px"><h3>Problem</h3><p class="muted">'+esc(p.problem||'—')+'</p><h3>Solution</h3><p class="muted">'+esc(p.solution||'—')+'</p><h3>Alternatives / competitors</h3><p class="muted">'+esc(p.alternatives||'—')+'</p><h3>Research notes</h3><p class="muted">'+esc(p.notes||'—')+'</p></div><div class="form-footer"><span class="muted" style="font-size:10px">Updated '+esc(p.updated||'—')+'</span><button class="btn primary" id="detailEdit">Edit product</button></div></div></div>';
+ document.body.insertAdjacentHTML('beforeend',detail);$('detailClose').onclick=()=>$('detailBack').remove();$('detailBack').addEventListener('click',e=>{if(e.target.id==='detailBack')e.currentTarget.remove()});$('detailEdit').onclick=()=>{$('detailBack').remove();openModal(id)};
+}
+function exportData(){let blob=new Blob([JSON.stringify({app:'Product Lab',version:1,exported:new Date().toISOString(),products:records},null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='product-lab-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(a.href);toast('Backup exported')}
+function importData(file){let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result),arr=Array.isArray(d)?d:d.products;if(!Array.isArray(arr))throw Error();if(!confirm('Import '+arr.length+' products? This replaces the current local data. Export a backup first if needed.'))return;records=arr;persist();toast('Backup imported')}catch(e){toast('Invalid backup file')}};r.readAsText(file)}
+function nav(page){['dashboard','products','validation','insights'].forEach(x=>$(x+'Page').classList.toggle('hidden',x!==page));document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));window.scrollTo({top:0,behavior:'smooth'});render()}
+document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>nav(b.dataset.page)));
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>nav(b.dataset.go)));
+document.addEventListener('click',e=>{let t=e.target.closest('[data-edit],[data-view],[data-new]');if(!t)return;if(t.dataset.edit)openModal(t.dataset.edit);else if(t.dataset.view)showDetail(t.dataset.view);else openModal()});
+['newTop','newDash','newProducts'].forEach(id=>$(id).onclick=()=>openModal());
+$('closeModal').onclick=closeModal;$('cancelForm').onclick=closeModal;$('modalBack').addEventListener('click',e=>{if(e.target===$('modalBack'))closeModal()});
+$('productForm').addEventListener('submit',saveForm);
+$('deleteProduct').onclick=()=>{let id=$('productId').value;if(confirm('Permanently delete this product?')){records=records.filter(p=>p.id!==id);persist();closeModal();toast('Product deleted')}};
+$('searchProducts').addEventListener('input',render);$('filterStatus').addEventListener('change',render);$('sortProducts').addEventListener('change',render);
+['exportTop','exportSide'].forEach(id=>$(id).onclick=exportData);
+$('importBtn').onclick=()=>$('importFile').click();$('importFile').onchange=e=>{if(e.target.files[0])importData(e.target.files[0]);e.target.value=''};
+buildScoreFields();render();
+})();
+</script>
+</body>
+</html>
