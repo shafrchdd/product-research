@@ -1,0 +1,9 @@
+{
+  "name": "product-lab-mongodb",
+  "version": "1.0.0",
+  "private": true,
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "mongodb": "^7.0.0"
+  }
+}
