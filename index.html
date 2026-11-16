@@ -114,7 +114,9 @@
 (function(){
 'use strict';
 const KEY='productLab.records.v1';
-const API_BASE=(window.PRODUCT_LAB_API||'').replace(/\\/$/,'');
+// Vercel hosts both the UI and /api in this project, so use the same origin.
+// A custom API URL can still be supplied with window.PRODUCT_LAB_API.
+const API_BASE=(window.PRODUCT_LAB_API||'/api').replace(/\\/$/,'');
 const USE_MONGODB=!!API_BASE;
 let authenticated=false;
 const criteria=[
